@@ -38,7 +38,8 @@ const SPACE = " ";
 export const decodeMorse = (input) => {
   const result = [];
   let currentNode = prefixTree;
-  for (const char of input.trim()) {
+  const trimmedString = input.trim();
+  for (const char of trimmedString) {
     if (currentNode.code && char === SPACE) {
       result.push(currentNode.code);
       currentNode = prefixTree;

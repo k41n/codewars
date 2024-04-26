@@ -7,6 +7,7 @@ import * as davydov from "./davydov.js";
 import * as yakuncheva from "./yakuncheva.js";
 import { MORSE_CODE as _MORSE_CODE } from "./morse.js";
 import { readFileSync } from "fs";
+import { expectToEqual, measure, testSolution } from "../framework/utils.js";
 
 const MORSE_CODE = {
   ..._MORSE_CODE,
@@ -17,18 +18,6 @@ const inversedMorseCode = Object.fromEntries(
   Object.entries(MORSE_CODE).map(([key, value]) => [value, key])
 );
 
-const measure = (label, fn, times = 5) => {
-  const timeBefore = performance.now();
-
-  for (let i = 0; i < times; i++) {
-    fn();
-  }
-
-  const timeAfter = performance.now();
-
-  console.log(label, (timeAfter - timeBefore) / 5);
-};
-
 const encode = (text) =>
   text
     .toUpperCase()
@@ -36,12 +25,6 @@ const encode = (text) =>
     .map((letter) => inversedMorseCode[letter])
     .filter(Boolean)
     .join(" ");
-
-const expectToEqual = (expected, actual, label) => {
-  if (expected !== actual) {
-    console.log(`FAILURE!!! [${actual}] is not equal to [${expected}]`);
-  }
-};
 
 const tests = (mod) => {
   expectToEqual(mod.decodeMorse("...---..."), "SOS");
@@ -87,14 +70,6 @@ const case2 = (mod) => {
   );
 };
 
-const testSolution = (mod) => {
-  mod.module.prepare();
-  console.log(`Testing solution of ${mod.author}`);
-  tests(mod.module);
-  case1(mod.module);
-  case2(mod.module);
-};
-
 const solutions = [
   {
     author: "Andrei Malyshev (Naive)",
@@ -127,5 +102,5 @@ const solutions = [
 ];
 
 solutions.forEach((solution) => {
-  testSolution(solution);
+  testSolution(solution, tests, [case1, case2]);
 });
