@@ -7,29 +7,18 @@ export const measure = (label, fn, times = 5, divideBy = 1) => {
 
   const timeAfter = performance.now();
 
-  let result = (timeAfter - timeBefore) / times / divideBy;
-  let unit = "ms";
-
-  if (result < 0.01) {
-    result *= 1000;
-    unit = "mcs";
-  }
-
-  if (result < 1) {
-    result *= 1000;
-    unit = "ns";
-  }
-
-  console.log(label, [result.toFixed(3), unit].join(" "));
+  return (timeAfter - timeBefore) / times / divideBy;
 };
 
 export const testSolution = (mod, tests, cases) => {
   if (mod.module.prepare) {
     mod.module.prepare();
   }
-  console.log(`Testing solution of ${mod.author}`);
   tests(mod.module);
-  cases.forEach((useCase) => useCase(mod.module));
+  const caseResults = cases.map((useCase) =>
+    (useCase.case(mod.module) * 1_000_000).toFixed(2)
+  );
+  console.log([mod.author].concat(caseResults).join(";").replace(/\./g, ","));
 };
 
 export const expectToEqual = (expected, actual, label) => {
