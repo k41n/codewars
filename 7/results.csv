@@ -1,0 +1,5 @@
+Author;Worst case (ms); Best case(ms); Even worse case
+Andrei Malyshev;78,71;32,92;11,25
+Artem Marshev;144,01;136,60;139,77
+Alexey Kadantsev;148,37;132,63;122,83
+Maksim Skvortsov;1850,48;85,90;682,47

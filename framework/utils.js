@@ -10,13 +10,13 @@ export const measure = (label, fn, times = 5, divideBy = 1) => {
   return (timeAfter - timeBefore) / times / divideBy;
 };
 
-export const testSolution = (mod, tests, cases) => {
+export const testSolution = (mod, tests, cases, mult = 1_000_000) => {
   if (mod.module.prepare) {
     mod.module.prepare();
   }
   tests(mod.module);
   const caseResults = cases.map((useCase) =>
-    (useCase.case(mod.module) * 1_000_000).toFixed(2)
+    (useCase.case(mod.module) * mult).toFixed(2)
   );
   console.log([mod.author].concat(caseResults).join(";").replace(/\./g, ","));
 };
